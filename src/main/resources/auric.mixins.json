@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "com.ethanhellyer.auric.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "PotionBrewingMixin"
+  ],
+  "client": [
+    "BlockRenderDispatcherMixin",
+    "ItemRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
