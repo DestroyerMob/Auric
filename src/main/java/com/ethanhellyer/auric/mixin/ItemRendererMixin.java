@@ -1,6 +1,8 @@
 package com.ethanhellyer.auric.mixin;
 
 import com.ethanhellyer.auric.client.AuricGlintRenderTypes;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import java.util.ArrayDeque;
@@ -14,7 +16,6 @@ import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ItemRenderer.class)
@@ -57,39 +58,56 @@ public abstract class ItemRendererMixin {
         }
     }
 
-    @Redirect(
+    @WrapOperation(
             method = "render",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/client/renderer/entity/ItemRenderer;getCompassFoilBuffer(Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/client/renderer/RenderType;Lcom/mojang/blaze3d/vertex/PoseStack$Pose;)Lcom/mojang/blaze3d/vertex/VertexConsumer;"
             )
     )
-    private VertexConsumer auric$getCompassFoilBuffer(MultiBufferSource bufferSource, RenderType renderType, PoseStack.Pose pose) {
-        VertexConsumer vanillaConsumer = ItemRenderer.getCompassFoilBuffer(bufferSource, renderType, pose);
+    private VertexConsumer auric$getCompassFoilBuffer(
+            MultiBufferSource bufferSource,
+            RenderType renderType,
+            PoseStack.Pose pose,
+            Operation<VertexConsumer> original
+    ) {
+        VertexConsumer vanillaConsumer = original.call(bufferSource, renderType, pose);
         return AuricGlintRenderTypes.appendCompassBuffer(bufferSource, pose, vanillaConsumer, auric$currentStack());
     }
 
-    @Redirect(
+    @WrapOperation(
             method = "render",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/client/renderer/entity/ItemRenderer;getFoilBufferDirect(Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/client/renderer/RenderType;ZZ)Lcom/mojang/blaze3d/vertex/VertexConsumer;"
             )
     )
-    private VertexConsumer auric$getFoilBufferDirect(MultiBufferSource bufferSource, RenderType renderType, boolean isItem, boolean hasFoil) {
-        VertexConsumer vanillaConsumer = ItemRenderer.getFoilBufferDirect(bufferSource, renderType, isItem, hasFoil);
+    private VertexConsumer auric$getFoilBufferDirect(
+            MultiBufferSource bufferSource,
+            RenderType renderType,
+            boolean isItem,
+            boolean hasFoil,
+            Operation<VertexConsumer> original
+    ) {
+        VertexConsumer vanillaConsumer = original.call(bufferSource, renderType, isItem, hasFoil);
         return AuricGlintRenderTypes.appendDirectBuffer(bufferSource, isItem, vanillaConsumer, auric$currentStack());
     }
 
-    @Redirect(
+    @WrapOperation(
             method = "render",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/client/renderer/entity/ItemRenderer;getFoilBuffer(Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/client/renderer/RenderType;ZZ)Lcom/mojang/blaze3d/vertex/VertexConsumer;"
             )
     )
-    private VertexConsumer auric$getFoilBuffer(MultiBufferSource bufferSource, RenderType renderType, boolean isItem, boolean hasFoil) {
-        VertexConsumer vanillaConsumer = ItemRenderer.getFoilBuffer(bufferSource, renderType, isItem, hasFoil);
+    private VertexConsumer auric$getFoilBuffer(
+            MultiBufferSource bufferSource,
+            RenderType renderType,
+            boolean isItem,
+            boolean hasFoil,
+            Operation<VertexConsumer> original
+    ) {
+        VertexConsumer vanillaConsumer = original.call(bufferSource, renderType, isItem, hasFoil);
         return AuricGlintRenderTypes.appendBuffer(bufferSource, renderType, isItem, vanillaConsumer, auric$currentStack());
     }
 

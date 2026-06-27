@@ -50,6 +50,7 @@ neoForge {
 
 dependencies {
     annotationProcessor "net.fabricmc:sponge-mixin:0.15.2+mixin.0.8.7"
+    compileOnly "io.github.llamalad7:mixinextras-neoforge:0.5.3"
 
     compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
     runtimeOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
