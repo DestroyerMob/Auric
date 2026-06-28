@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "betterenchanting:physical_essence",
+      "required": false
+    }
+  ]
+}

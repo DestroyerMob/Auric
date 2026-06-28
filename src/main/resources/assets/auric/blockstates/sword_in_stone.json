@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "facing=east,has_sword=false": {
+      "model": "auric:block/sword_in_stone"
+    },
+    "facing=east,has_sword=true": {
+      "model": "auric:block/sword_in_stone"
+    },
+    "facing=north,has_sword=false": {
+      "model": "auric:block/sword_in_stone"
+    },
+    "facing=north,has_sword=true": {
+      "model": "auric:block/sword_in_stone"
+    },
+    "facing=south,has_sword=false": {
+      "model": "auric:block/sword_in_stone"
+    },
+    "facing=south,has_sword=true": {
+      "model": "auric:block/sword_in_stone"
+    },
+    "facing=west,has_sword=false": {
+      "model": "auric:block/sword_in_stone"
+    },
+    "facing=west,has_sword=true": {
+      "model": "auric:block/sword_in_stone"
+    }
+  }
+}

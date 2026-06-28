@@ -65,6 +65,11 @@ public final class ModItems {
             () -> new PotionCandleItem(ModBlocks.POTION_CANDLE.get(), new Item.Properties())
     );
 
+    public static final Supplier<BlockItem> SWORD_IN_STONE = ITEMS.register(
+            ModBlocks.SWORD_IN_STONE_ID,
+            () -> new BlockItem(ModBlocks.SWORD_IN_STONE.get(), new Item.Properties())
+    );
+
     private ModItems() {
     }
 

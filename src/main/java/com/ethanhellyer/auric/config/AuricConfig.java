@@ -13,6 +13,7 @@ public final class AuricConfig {
     public static final ModConfigSpec.IntValue EFFECT_TICK_INTERVAL;
     public static final ModConfigSpec.ConfigValue<List<? extends String>> DISALLOWED_EFFECTS;
     public static final ModConfigSpec.BooleanValue ALLOW_MIXED_POTION_CANDLE_EFFECTS;
+    public static final ModConfigSpec.BooleanValue GENERATE_FORGOTTEN_BLADE_SHRINES;
     public static final ModConfigSpec SPEC;
 
     static {
@@ -38,6 +39,12 @@ public final class AuricConfig {
         ALLOW_MIXED_POTION_CANDLE_EFFECTS = BUILDER
                 .comment("Whether stacked Scented Candles can each carry different potion effects.")
                 .define("allow_mixed_potion_candle_effects", true);
+        BUILDER.pop();
+
+        BUILDER.push("worldgen");
+        GENERATE_FORGOTTEN_BLADE_SHRINES = BUILDER
+                .comment("Whether Auric's rare Forgotten Blade Shrines generate in new overworld chunks.")
+                .define("generate_forgotten_blade_shrines", true);
         BUILDER.pop();
 
         SPEC = BUILDER.build();

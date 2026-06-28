@@ -5,6 +5,7 @@ import com.ethanhellyer.auric.blockentity.CamouflagedBlockEntity;
 import com.ethanhellyer.auric.blockentity.ImbuingTableBlockEntity;
 import com.ethanhellyer.auric.blockentity.PotionCauldronBlockEntity;
 import com.ethanhellyer.auric.blockentity.PotionCandleBlockEntity;
+import com.ethanhellyer.auric.blockentity.SwordInStoneBlockEntity;
 import java.util.function.Supplier;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -37,6 +38,12 @@ public final class ModBlockEntityTypes {
             BLOCK_ENTITY_TYPES.register(
                     ModBlocks.CAMOUFLAGED_BLOCK_ID,
                     () -> BlockEntityType.Builder.of(CamouflagedBlockEntity::new, ModBlocks.CAMOUFLAGED_BLOCK.get()).build(null)
+            );
+
+    public static final Supplier<BlockEntityType<SwordInStoneBlockEntity>> SWORD_IN_STONE =
+            BLOCK_ENTITY_TYPES.register(
+                    ModBlocks.SWORD_IN_STONE_ID,
+                    () -> BlockEntityType.Builder.of(SwordInStoneBlockEntity::new, ModBlocks.SWORD_IN_STONE.get()).build(null)
             );
 
     private ModBlockEntityTypes() {

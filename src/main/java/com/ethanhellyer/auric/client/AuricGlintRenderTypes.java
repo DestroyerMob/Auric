@@ -11,6 +11,8 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexMultiConsumer;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
@@ -25,6 +27,19 @@ import org.joml.Matrix4f;
 public final class AuricGlintRenderTypes {
     private static final ResourceLocation AURIC_GLINT_ITEM = Auric.id("textures/misc/auric_glint_item.png");
     private static final ResourceLocation AURIC_GLINT_ENTITY = Auric.id("textures/misc/auric_glint_entity.png");
+    private static final String MOBS_TOOL_FORGING = "mobstoolforging";
+    private static final float LAYERED_TOOL_GLINT_BRIGHTNESS = 0.45F;
+    private static final RenderStateShard.TransparencyStateShard LAYERED_TOOL_GLINT_TRANSPARENCY = new RenderStateShard.TransparencyStateShard(
+            "auric_layered_tool_glint_transparency",
+            () -> {
+                RenderStateShard.GLINT_TRANSPARENCY.setupRenderState();
+                RenderSystem.setShaderColor(LAYERED_TOOL_GLINT_BRIGHTNESS, LAYERED_TOOL_GLINT_BRIGHTNESS, LAYERED_TOOL_GLINT_BRIGHTNESS, 1.0F);
+            },
+            () -> {
+                RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+                RenderStateShard.GLINT_TRANSPARENCY.clearRenderState();
+            }
+    );
     private static final RenderStateShard.TexturingStateShard AURIC_GLINT_TEXTURING = new RenderStateShard.TexturingStateShard(
             "auric_glint_texturing",
             () -> setupAuricGlintTexturing(8.0F),
@@ -98,6 +113,68 @@ public final class AuricGlintRenderTypes {
                     .setTexturingState(AURIC_ENTITY_GLINT_TEXTURING)
                     .createCompositeState(false)
     );
+    private static final RenderType LAYERED_TOOL_GLINT_TRANSLUCENT = RenderType.create(
+            "auric_layered_tool_glint_translucent",
+            DefaultVertexFormat.POSITION_TEX,
+            VertexFormat.Mode.QUADS,
+            1536,
+            RenderType.CompositeState.builder()
+                    .setShaderState(RenderStateShard.RENDERTYPE_GLINT_TRANSLUCENT_SHADER)
+                    .setTextureState(new RenderStateShard.TextureStateShard(AURIC_GLINT_ITEM, true, false))
+                    .setWriteMaskState(RenderStateShard.COLOR_WRITE)
+                    .setCullState(RenderStateShard.NO_CULL)
+                    .setDepthTestState(RenderStateShard.EQUAL_DEPTH_TEST)
+                    .setTransparencyState(LAYERED_TOOL_GLINT_TRANSPARENCY)
+                    .setTexturingState(AURIC_GLINT_TEXTURING)
+                    .setOutputState(RenderStateShard.ITEM_ENTITY_TARGET)
+                    .createCompositeState(false)
+    );
+    private static final RenderType LAYERED_TOOL_GLINT = RenderType.create(
+            "auric_layered_tool_glint",
+            DefaultVertexFormat.POSITION_TEX,
+            VertexFormat.Mode.QUADS,
+            1536,
+            RenderType.CompositeState.builder()
+                    .setShaderState(RenderStateShard.RENDERTYPE_GLINT_SHADER)
+                    .setTextureState(new RenderStateShard.TextureStateShard(AURIC_GLINT_ITEM, true, false))
+                    .setWriteMaskState(RenderStateShard.COLOR_WRITE)
+                    .setCullState(RenderStateShard.NO_CULL)
+                    .setDepthTestState(RenderStateShard.EQUAL_DEPTH_TEST)
+                    .setTransparencyState(LAYERED_TOOL_GLINT_TRANSPARENCY)
+                    .setTexturingState(AURIC_GLINT_TEXTURING)
+                    .createCompositeState(false)
+    );
+    private static final RenderType LAYERED_TOOL_ENTITY_GLINT = RenderType.create(
+            "auric_layered_tool_entity_glint",
+            DefaultVertexFormat.POSITION_TEX,
+            VertexFormat.Mode.QUADS,
+            1536,
+            RenderType.CompositeState.builder()
+                    .setShaderState(RenderStateShard.RENDERTYPE_ENTITY_GLINT_SHADER)
+                    .setTextureState(new RenderStateShard.TextureStateShard(AURIC_GLINT_ENTITY, true, false))
+                    .setWriteMaskState(RenderStateShard.COLOR_WRITE)
+                    .setCullState(RenderStateShard.NO_CULL)
+                    .setDepthTestState(RenderStateShard.EQUAL_DEPTH_TEST)
+                    .setTransparencyState(LAYERED_TOOL_GLINT_TRANSPARENCY)
+                    .setOutputState(RenderStateShard.ITEM_ENTITY_TARGET)
+                    .setTexturingState(AURIC_ENTITY_GLINT_TEXTURING)
+                    .createCompositeState(false)
+    );
+    private static final RenderType LAYERED_TOOL_ENTITY_GLINT_DIRECT = RenderType.create(
+            "auric_layered_tool_entity_glint_direct",
+            DefaultVertexFormat.POSITION_TEX,
+            VertexFormat.Mode.QUADS,
+            1536,
+            RenderType.CompositeState.builder()
+                    .setShaderState(RenderStateShard.RENDERTYPE_ENTITY_GLINT_DIRECT_SHADER)
+                    .setTextureState(new RenderStateShard.TextureStateShard(AURIC_GLINT_ENTITY, true, false))
+                    .setWriteMaskState(RenderStateShard.COLOR_WRITE)
+                    .setCullState(RenderStateShard.NO_CULL)
+                    .setDepthTestState(RenderStateShard.EQUAL_DEPTH_TEST)
+                    .setTransparencyState(LAYERED_TOOL_GLINT_TRANSPARENCY)
+                    .setTexturingState(AURIC_ENTITY_GLINT_TEXTURING)
+                    .createCompositeState(false)
+    );
 
     private AuricGlintRenderTypes() {
     }
@@ -118,6 +195,22 @@ public final class AuricGlintRenderTypes {
         return AURIC_ENTITY_GLINT_DIRECT;
     }
 
+    public static RenderType layeredToolGlintTranslucent() {
+        return LAYERED_TOOL_GLINT_TRANSLUCENT;
+    }
+
+    public static RenderType layeredToolGlint() {
+        return LAYERED_TOOL_GLINT;
+    }
+
+    public static RenderType layeredToolEntityGlint() {
+        return LAYERED_TOOL_ENTITY_GLINT;
+    }
+
+    public static RenderType layeredToolEntityGlintDirect() {
+        return LAYERED_TOOL_ENTITY_GLINT_DIRECT;
+    }
+
     public static VertexConsumer appendCompassBuffer(
             MultiBufferSource bufferSource,
             PoseStack.Pose pose,
@@ -129,7 +222,7 @@ public final class AuricGlintRenderTypes {
         }
 
         return VertexMultiConsumer.create(
-                new SheetedDecalTextureGenerator(bufferSource.getBuffer(glint()), pose, 0.0078125F),
+                new SheetedDecalTextureGenerator(bufferSource.getBuffer(isLayeredToolStack(stack) ? layeredToolGlint() : glint()), pose, 0.0078125F),
                 vanillaConsumer
         );
     }
@@ -144,7 +237,9 @@ public final class AuricGlintRenderTypes {
             return vanillaConsumer;
         }
 
-        return VertexMultiConsumer.create(bufferSource.getBuffer(isItem ? glint() : entityGlintDirect()), vanillaConsumer);
+        return VertexMultiConsumer.create(bufferSource.getBuffer(isItem
+                ? isLayeredToolStack(stack) ? layeredToolGlint() : glint()
+                : isLayeredToolStack(stack) ? layeredToolEntityGlintDirect() : entityGlintDirect()), vanillaConsumer);
     }
 
     public static VertexConsumer appendBuffer(
@@ -159,13 +254,30 @@ public final class AuricGlintRenderTypes {
         }
 
         RenderType auricGlint = Minecraft.useShaderTransparency() && renderType == Sheets.translucentItemSheet()
-                ? glintTranslucent()
-                : isItem ? glint() : entityGlint();
+                ? isLayeredToolStack(stack) ? layeredToolGlintTranslucent() : glintTranslucent()
+                : isItem
+                ? isLayeredToolStack(stack) ? layeredToolGlint() : glint()
+                : isLayeredToolStack(stack) ? layeredToolEntityGlint() : entityGlint();
         return VertexMultiConsumer.create(bufferSource.getBuffer(auricGlint), vanillaConsumer);
     }
 
     private static boolean hasAuricGlint(ItemStack stack) {
         return !stack.isEmpty() && stack.has(ModDataComponents.IMBUE.get());
+    }
+
+    private static boolean isLayeredToolStack(ItemStack stack) {
+        if (stack.isEmpty()) {
+            return false;
+        }
+        for (DataComponentType<?> component : stack.getComponents().keySet()) {
+            ResourceLocation componentId = BuiltInRegistries.DATA_COMPONENT_TYPE.getKey(component);
+            if (componentId != null
+                    && MOBS_TOOL_FORGING.equals(componentId.getNamespace())
+                    && ("tool_construction".equals(componentId.getPath()) || "tool_part".equals(componentId.getPath()))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static void setupAuricGlintTexturing(float scale) {

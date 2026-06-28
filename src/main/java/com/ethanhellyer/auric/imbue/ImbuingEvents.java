@@ -54,7 +54,7 @@ public class ImbuingEvents {
 
     private static void addImbue(ItemStack stack, Map<ResourceLocation, Integer> strongest) {
         ImbueData data = stack.get(ModDataComponents.IMBUE.get());
-        if (data == null || !ImbuingLogic.isEligibleTarget(stack)) {
+        if (data == null || !ImbuingLogic.isActiveImbueCarrier(stack)) {
             return;
         }
 

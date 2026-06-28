@@ -14,6 +14,7 @@ import com.ethanhellyer.auric.registry.ModEntityTypes;
 import com.ethanhellyer.auric.registry.ModItems;
 import com.ethanhellyer.auric.registry.ModMenuTypes;
 import com.ethanhellyer.auric.registry.ModRecipeSerializers;
+import com.ethanhellyer.auric.registry.ModStructures;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -29,6 +30,7 @@ public final class Auric {
     public Auric(IEventBus modBus, ModContainer modContainer) {
         ModDataComponents.register(modBus);
         ModEntityTypes.register(modBus);
+        ModStructures.register(modBus);
         ModBlocks.register(modBus);
         ModItems.register(modBus);
         ModBlockEntityTypes.register(modBus);

@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "mobstoolforging:sword_blade_pattern",
+      "required": false
+    },
+    {
+      "id": "mobstoolforging:sword_guard_pattern",
+      "required": false
+    }
+  ]
+}

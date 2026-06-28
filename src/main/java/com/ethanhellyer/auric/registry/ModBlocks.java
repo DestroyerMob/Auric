@@ -5,6 +5,7 @@ import com.ethanhellyer.auric.block.CamouflagedBlock;
 import com.ethanhellyer.auric.block.ImbuingTableBlock;
 import com.ethanhellyer.auric.block.PotionCauldronBlock;
 import com.ethanhellyer.auric.block.PotionCandleBlock;
+import com.ethanhellyer.auric.block.SwordInStoneBlock;
 import java.util.function.Supplier;
 import net.minecraft.world.level.block.CandleBlock;
 import net.minecraft.world.level.block.Blocks;
@@ -19,6 +20,7 @@ public final class ModBlocks {
     public static final String POTION_CAULDRON_ID = "potion_cauldron";
     public static final String CAMOUFLAGED_BLOCK_ID = "camouflaged_block";
     public static final String POTION_CANDLE_ID = "potion_candle";
+    public static final String SWORD_IN_STONE_ID = "sword_in_stone";
 
     private static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(Auric.MOD_ID);
 
@@ -49,6 +51,13 @@ public final class ModBlocks {
                     .strength(-1.0F, 3600000.0F)
                     .dynamicShape()
                     .noLootTable())
+    );
+
+    public static final Supplier<SwordInStoneBlock> SWORD_IN_STONE = BLOCKS.register(
+            SWORD_IN_STONE_ID,
+            () -> new SwordInStoneBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CHISELED_STONE_BRICKS)
+                    .strength(2.0F, 6.0F)
+                    .requiresCorrectToolForDrops())
     );
 
     private ModBlocks() {

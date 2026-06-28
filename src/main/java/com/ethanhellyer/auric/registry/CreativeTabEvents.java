@@ -18,6 +18,7 @@ public final class CreativeTabEvents {
             event.accept(ModItems.SCULK_BOTTLE.get());
             event.accept(SculkBottleOfEnchantingItem.withExperience(SculkBottleItem.EXPERIENCE_PER_BOTTLE));
             event.accept(ModItems.POTION_CANDLE.get());
+            event.accept(ModItems.SWORD_IN_STONE.get());
         }
     }
 }

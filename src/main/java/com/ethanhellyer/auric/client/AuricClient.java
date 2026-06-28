@@ -3,6 +3,7 @@ package com.ethanhellyer.auric.client;
 import com.ethanhellyer.auric.Auric;
 import com.ethanhellyer.auric.camo.CamouflageHelper;
 import com.ethanhellyer.auric.blockentity.PotionCauldronBlockEntity;
+import com.ethanhellyer.auric.registry.ModBlockEntityTypes;
 import com.ethanhellyer.auric.registry.ModBlocks;
 import com.ethanhellyer.auric.registry.ModEntityTypes;
 import com.ethanhellyer.auric.registry.ModMenuTypes;
@@ -40,6 +41,7 @@ public final class AuricClient {
 
     private static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntityTypes.SCULK_EXPERIENCE_BOTTLE.get(), ThrownItemRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntityTypes.SWORD_IN_STONE.get(), SwordInStoneRenderer::new);
     }
 
     private static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
@@ -69,6 +71,10 @@ public final class AuricClient {
         event.registerRenderBuffer(AuricGlintRenderTypes.glintTranslucent());
         event.registerRenderBuffer(AuricGlintRenderTypes.entityGlint());
         event.registerRenderBuffer(AuricGlintRenderTypes.entityGlintDirect());
+        event.registerRenderBuffer(AuricGlintRenderTypes.layeredToolGlint());
+        event.registerRenderBuffer(AuricGlintRenderTypes.layeredToolGlintTranslucent());
+        event.registerRenderBuffer(AuricGlintRenderTypes.layeredToolEntityGlint());
+        event.registerRenderBuffer(AuricGlintRenderTypes.layeredToolEntityGlintDirect());
     }
 
     private static void modifyBakedModels(ModelEvent.ModifyBakingResult event) {

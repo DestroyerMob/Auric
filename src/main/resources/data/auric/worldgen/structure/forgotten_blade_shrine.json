@@ -1,0 +1,7 @@
+{
+  "type": "auric:forgotten_blade_shrine",
+  "biomes": "#auric:has_structure/forgotten_blade_shrine",
+  "spawn_overrides": {},
+  "step": "surface_structures",
+  "terrain_adaptation": "none"
+}

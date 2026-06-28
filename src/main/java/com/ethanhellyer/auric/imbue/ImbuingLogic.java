@@ -6,11 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -18,6 +21,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.DiggerItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MaceItem;
@@ -28,6 +32,18 @@ import net.minecraft.world.item.alchemy.PotionContents;
 
 public final class ImbuingLogic {
     private static final String VANILLA_NAMESPACE = "minecraft";
+    private static final String MOBS_TOOL_FORGING_NAMESPACE = "mobstoolforging";
+    private static final String MTF_TOOL_CONSTRUCTION_COMPONENT = "tool_construction";
+    private static final String MTF_TOOL_PART_COMPONENT = "tool_part";
+    private static final List<TagKey<Item>> MTF_IMBUABLE_PART_TAGS = List.of(
+            mtfPartTag("sword_blade"),
+            mtfPartTag("shovel_head"),
+            mtfPartTag("pickaxe_head"),
+            mtfPartTag("axe_head"),
+            mtfPartTag("hoe_head"),
+            mtfPartTag("screwdriver_head"),
+            mtfPartTag("gem_cutters_blade")
+    );
 
     private ImbuingLogic() {
     }
@@ -54,6 +70,23 @@ public final class ImbuingLogic {
         if (stack.isEmpty()) {
             return false;
         }
+        if (isMtfFinishedTool(stack)) {
+            return false;
+        }
+        if (isMtfToolPart(stack)) {
+            return isMtfImbuableToolHead(stack);
+        }
+        return isStandardImbuableTarget(stack);
+    }
+
+    public static boolean isActiveImbueCarrier(ItemStack stack) {
+        if (stack.isEmpty() || isMtfToolPart(stack)) {
+            return false;
+        }
+        return isMtfFinishedTool(stack) || isStandardImbuableTarget(stack);
+    }
+
+    private static boolean isStandardImbuableTarget(ItemStack stack) {
         if (stack.getItem() instanceof SwordItem
                 || stack.getItem() instanceof DiggerItem
                 || stack.getItem() instanceof BowItem
@@ -71,6 +104,39 @@ public final class ImbuingLogic {
                 || stack.is(ItemTags.CROSSBOW_ENCHANTABLE)
                 || stack.is(ItemTags.TRIDENT_ENCHANTABLE)
                 || stack.is(ItemTags.MACE_ENCHANTABLE);
+    }
+
+    private static boolean isMtfImbuableToolHead(ItemStack stack) {
+        for (TagKey<Item> tag : MTF_IMBUABLE_PART_TAGS) {
+            if (stack.is(tag)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean isMtfFinishedTool(ItemStack stack) {
+        return hasMtfComponent(stack, MTF_TOOL_CONSTRUCTION_COMPONENT);
+    }
+
+    private static boolean isMtfToolPart(ItemStack stack) {
+        return hasMtfComponent(stack, MTF_TOOL_PART_COMPONENT);
+    }
+
+    private static boolean hasMtfComponent(ItemStack stack, String componentPath) {
+        for (DataComponentType<?> component : stack.getComponents().keySet()) {
+            ResourceLocation componentId = BuiltInRegistries.DATA_COMPONENT_TYPE.getKey(component);
+            if (componentId != null
+                    && MOBS_TOOL_FORGING_NAMESPACE.equals(componentId.getNamespace())
+                    && componentPath.equals(componentId.getPath())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static TagKey<Item> mtfPartTag(String path) {
+        return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(MOBS_TOOL_FORGING_NAMESPACE, "parts/" + path));
     }
 
     public static boolean isPotionCandidate(ItemStack stack) {
