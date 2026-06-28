@@ -12,6 +12,8 @@ The mod is currently early in development. Expect features to grow, shift, and c
 - Sculk Bottles for storing and throwing small amounts of experience.
 - Camouflage tools for copying block appearances and disguising blocks.
 - A Block Palette for compact builder block storage and random placement.
+- Sword in Stone blocks and rare Forgotten Blade Shrine worldgen.
+- Configurable imbuing strength, XP cost, disallowed effects, potion candle mixing, and shrine generation.
 
 ## Design Direction
 
@@ -28,7 +30,8 @@ The rough pillars are:
 ## Requirements
 
 - Minecraft 1.21.1
-- NeoForge 21.1.228 or newer
+- NeoForge 21.1.234 or newer
+- Java 21
 
 ## Building
 
@@ -42,5 +45,10 @@ The built jars will be generated in `build/libs/`.
 
 ## Status
 
-Auric is under active development and is not feature-complete.
+Auric is under active development and is not feature-complete. The current branch is playable enough for internal pack testing, but balance, final art, and stronger links between the magic systems are still in progress.
 
+## Known Limitations
+
+- Potion candle and imbuing balance are still early.
+- Forgotten Blade Shrine generation is config-gated but still needs broader worldgen testing.
+- Camouflage support is intentionally conservative; unsupported blocks are rejected instead of copied badly.
