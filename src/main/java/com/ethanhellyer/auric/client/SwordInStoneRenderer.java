@@ -29,6 +29,9 @@ public class SwordInStoneRenderer implements BlockEntityRenderer<SwordInStoneBlo
         }
 
         BlockState state = shrine.getBlockState();
+        if (state.hasProperty(SwordInStoneBlock.HAS_SWORD) && !state.getValue(SwordInStoneBlock.HAS_SWORD)) {
+            return;
+        }
         Direction facing = state.hasProperty(SwordInStoneBlock.FACING) ? state.getValue(SwordInStoneBlock.FACING) : Direction.NORTH;
 
         poseStack.pushPose();

@@ -55,8 +55,10 @@ public class SwordInStoneBlockEntity extends BlockEntity {
     private void sync() {
         setChanged();
         if (level != null && !level.isClientSide) {
+            BlockState oldState = level.getBlockState(worldPosition);
             SwordInStoneBlock.updateSwordState(level, worldPosition, hasSword());
-            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
+            BlockState newState = level.getBlockState(worldPosition);
+            level.sendBlockUpdated(worldPosition, oldState, newState, Block.UPDATE_ALL);
         }
     }
 

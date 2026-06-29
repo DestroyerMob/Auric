@@ -81,6 +81,7 @@ final class ShrineSwordRewards {
                     Optional.class,
                     Optional.class,
                     Optional.class,
+                    Optional.class,
                     int.class
             );
             Object construction = constructor.newInstance(
@@ -88,6 +89,7 @@ final class ShrineSwordRewards {
                     material,
                     MTF_OAK,
                     usesGuard ? Optional.of(material) : Optional.empty(),
+                    Optional.empty(),
                     Optional.empty(),
                     Optional.empty(),
                     Optional.empty(),
