@@ -155,7 +155,7 @@ public final class ForgottenBladeShrinePiece extends StructurePiece {
                 .setValue(SwordInStoneBlock.HAS_SWORD, true);
         if (setBlock(level, chunkBounds, pos, state)
                 && level.getBlockEntity(pos) instanceof SwordInStoneBlockEntity shrine) {
-            shrine.setSword(ShrineSwordRewards.create(random));
+            shrine.setSword(ShrineSwordRewards.create(level, random));
         }
     }
 
