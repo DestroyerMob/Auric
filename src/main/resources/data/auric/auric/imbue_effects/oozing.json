@@ -1,0 +1,8 @@
+{
+  "effect": "minecraft:oozing",
+  "handling": "target_on_hit",
+  "target_duration_ticks": 160,
+  "potions": [
+    "minecraft:oozing"
+  ]
+}

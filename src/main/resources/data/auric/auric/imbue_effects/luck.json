@@ -1,0 +1,8 @@
+{
+  "effect": "minecraft:luck",
+  "handling": "holder",
+  "held_duration_ticks": 2,
+  "potions": [
+    "minecraft:luck"
+  ]
+}

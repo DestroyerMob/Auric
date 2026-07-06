@@ -1,0 +1,9 @@
+{
+  "effect": "minecraft:fire_resistance",
+  "handling": "holder",
+  "held_duration_ticks": 2,
+  "potions": [
+    "minecraft:fire_resistance",
+    "minecraft:long_fire_resistance"
+  ]
+}

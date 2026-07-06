@@ -1,0 +1,9 @@
+{
+  "effect": "minecraft:night_vision",
+  "handling": "holder",
+  "held_duration_ticks": 2,
+  "potions": [
+    "minecraft:night_vision",
+    "minecraft:long_night_vision"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "effect": "minecraft:speed",
+  "handling": "holder",
+  "held_duration_ticks": 2,
+  "potions": [
+    "minecraft:swiftness",
+    "minecraft:long_swiftness",
+    "minecraft:strong_swiftness"
+  ]
+}

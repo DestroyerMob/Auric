@@ -6,6 +6,7 @@ import com.ethanhellyer.auric.camo.CamoNetworking;
 import com.ethanhellyer.auric.camo.CamoSkinEvents;
 import com.ethanhellyer.auric.config.AuricConfig;
 import com.ethanhellyer.auric.imbue.ImbuingEvents;
+import com.ethanhellyer.auric.imbue.ImbueRules;
 import com.ethanhellyer.auric.registry.CreativeTabEvents;
 import com.ethanhellyer.auric.registry.ModBlockEntityTypes;
 import com.ethanhellyer.auric.registry.ModBlocks;
@@ -15,6 +16,7 @@ import com.ethanhellyer.auric.registry.ModItems;
 import com.ethanhellyer.auric.registry.ModMenuTypes;
 import com.ethanhellyer.auric.registry.ModRecipeSerializers;
 import com.ethanhellyer.auric.registry.ModStructures;
+import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -22,10 +24,13 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import org.slf4j.Logger;
 
 @Mod(Auric.MOD_ID)
 public final class Auric {
     public static final String MOD_ID = "auric";
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public Auric(IEventBus modBus, ModContainer modContainer) {
         ModDataComponents.register(modBus);
@@ -47,9 +52,14 @@ public final class Auric {
         NeoForge.EVENT_BUS.register(new ImbuingEvents());
         NeoForge.EVENT_BUS.register(new CauldronBrewingEvents());
         NeoForge.EVENT_BUS.register(new CamoSkinEvents());
+        NeoForge.EVENT_BUS.addListener(this::addReloadListeners);
     }
 
     public static ResourceLocation id(String path) {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    }
+
+    private void addReloadListeners(AddReloadListenerEvent event) {
+        event.addListener(new ImbueRules.ReloadListener());
     }
 }

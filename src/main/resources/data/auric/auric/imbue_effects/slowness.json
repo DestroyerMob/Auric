@@ -1,0 +1,10 @@
+{
+  "effect": "minecraft:slowness",
+  "handling": "target_on_hit",
+  "target_duration_ticks": 120,
+  "potions": [
+    "minecraft:slowness",
+    "minecraft:long_slowness",
+    "minecraft:strong_slowness"
+  ]
+}

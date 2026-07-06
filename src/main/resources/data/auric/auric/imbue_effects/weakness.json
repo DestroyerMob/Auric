@@ -1,0 +1,9 @@
+{
+  "effect": "minecraft:weakness",
+  "handling": "target_on_hit",
+  "target_duration_ticks": 120,
+  "potions": [
+    "minecraft:weakness",
+    "minecraft:long_weakness"
+  ]
+}

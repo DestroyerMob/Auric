@@ -16,7 +16,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.CrossbowItem;
@@ -31,7 +30,6 @@ import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionContents;
 
 public final class ImbuingLogic {
-    private static final String VANILLA_NAMESPACE = "minecraft";
     private static final String MOBS_TOOL_FORGING_NAMESPACE = "mobstoolforging";
     private static final String MTF_TOOL_CONSTRUCTION_COMPONENT = "tool_construction";
     private static final String MTF_TOOL_PART_COMPONENT = "tool_part";
@@ -158,7 +156,7 @@ public final class ImbuingLogic {
             return Optional.empty();
         }
         ResourceLocation potionId = BuiltInRegistries.POTION.getKey(potion.get().value());
-        if (potionId == null || !VANILLA_NAMESPACE.equals(potionId.getNamespace())) {
+        if (potionId == null) {
             return Optional.empty();
         }
 
@@ -173,15 +171,9 @@ public final class ImbuingLogic {
         MobEffect effect = effectHolder.value();
         ResourceLocation effectId = BuiltInRegistries.MOB_EFFECT.getKey(effect);
         if (effectId == null
-                || !VANILLA_NAMESPACE.equals(effectId.getNamespace())
-                || effect.getCategory() != MobEffectCategory.BENEFICIAL
                 || effect.isInstantenous()
-                || isDisallowed(effectId)) {
-            return Optional.empty();
-        }
-
-        int maxAmplifier = maxVanillaPotionAmplifier(effectHolder);
-        if (effectInstance.getAmplifier() != maxAmplifier) {
+                || isDisallowed(effectId)
+                || ImbueRules.ruleForPotion(potionId, effectId).isEmpty()) {
             return Optional.empty();
         }
 
@@ -199,7 +191,7 @@ public final class ImbuingLogic {
 
     private static ItemStack createUpgradeResult(ItemStack target) {
         ImbueData current = target.get(ModDataComponents.IMBUE.get());
-        if (current == null || isDisallowed(current.effect())) {
+        if (current == null || isDisallowed(current.effect()) || ImbueRules.ruleForEffect(current.effect()).isEmpty()) {
             return ItemStack.EMPTY;
         }
 
@@ -252,20 +244,30 @@ public final class ImbuingLogic {
         return Component.translatable("tooltip.auric.imbued", effectName, roman(amplifier + 1));
     }
 
-    private static int maxVanillaPotionAmplifier(Holder<MobEffect> effect) {
-        int max = 0;
-        for (Potion potion : BuiltInRegistries.POTION) {
-            ResourceLocation potionId = BuiltInRegistries.POTION.getKey(potion);
-            if (potionId == null || !VANILLA_NAMESPACE.equals(potionId.getNamespace())) {
-                continue;
-            }
-            for (MobEffectInstance instance : potion.getEffects()) {
-                if (instance.is(effect)) {
-                    max = Math.max(max, instance.getAmplifier());
-                }
-            }
-        }
-        return max;
+    public static boolean isHolderImbue(ImbueData data) {
+        return ImbueRules.ruleForEffect(data.effect())
+                .filter(rule -> rule.handling() == ImbueRules.Handling.HOLDER)
+                .filter(rule -> !isDisallowed(rule.effect()))
+                .isPresent();
+    }
+
+    public static boolean isTargetOnHitImbue(ImbueData data) {
+        return ImbueRules.ruleForEffect(data.effect())
+                .filter(rule -> rule.handling() == ImbueRules.Handling.TARGET_ON_HIT)
+                .filter(rule -> !isDisallowed(rule.effect()))
+                .isPresent();
+    }
+
+    public static int heldDurationTicks(ImbueData data) {
+        return ImbueRules.ruleForEffect(data.effect())
+                .map(ImbueRules.Rule::heldDurationTicks)
+                .orElse(2);
+    }
+
+    public static int targetDurationTicks(ImbueData data) {
+        return ImbueRules.ruleForEffect(data.effect())
+                .map(ImbueRules.Rule::targetDurationTicks)
+                .orElse(100);
     }
 
     private static boolean isDisallowed(ResourceLocation effectId) {

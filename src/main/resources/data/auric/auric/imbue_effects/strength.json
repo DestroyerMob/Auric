@@ -1,0 +1,10 @@
+{
+  "effect": "minecraft:strength",
+  "handling": "holder",
+  "held_duration_ticks": 2,
+  "potions": [
+    "minecraft:strength",
+    "minecraft:long_strength",
+    "minecraft:strong_strength"
+  ]
+}

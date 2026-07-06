@@ -1,0 +1,10 @@
+{
+  "effect": "minecraft:poison",
+  "handling": "target_on_hit",
+  "target_duration_ticks": 100,
+  "potions": [
+    "minecraft:poison",
+    "minecraft:long_poison",
+    "minecraft:strong_poison"
+  ]
+}

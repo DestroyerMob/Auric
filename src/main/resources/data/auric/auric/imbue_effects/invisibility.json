@@ -1,0 +1,9 @@
+{
+  "effect": "minecraft:invisibility",
+  "handling": "holder",
+  "held_duration_ticks": 2,
+  "potions": [
+    "minecraft:invisibility",
+    "minecraft:long_invisibility"
+  ]
+}
