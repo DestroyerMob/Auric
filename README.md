@@ -4,6 +4,13 @@ Auric is a Minecraft magic mod for NeoForge. It does not have one single focus; 
 
 The mod is currently early in development. Expect features to grow, shift, and connect more tightly over time.
 
+## Project Facts
+
+- Mod id: `auric`
+- Current version: `0.1.0`
+- Target: Minecraft 1.21.1, NeoForge 21.1.234, Java 21
+- Server config: `config/auric-server.toml`
+
 ## Current Features
 
 - Scented Candles that carry potion effects and apply them as a nearby scent.
@@ -33,6 +40,10 @@ The rough pillars are:
 - NeoForge 21.1.234 or newer
 - Java 21
 
+## Configuration
+
+The server config controls imbuing strength and XP cost, Dragon's Breath imbuing level caps, disallowed effects, mixed-effect candle stacking, and Forgotten Blade Shrine generation.
+
 ## Building
 
 Run:
@@ -52,3 +63,7 @@ Auric is under active development and is not feature-complete. The current branc
 - Potion candle and imbuing balance are still early.
 - Forgotten Blade Shrine generation is config-gated but still needs broader worldgen testing.
 - Camouflage support is intentionally conservative; unsupported blocks are rejected instead of copied badly.
+
+## License
+
+All rights reserved.
