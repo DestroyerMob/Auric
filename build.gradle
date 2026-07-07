@@ -20,6 +20,13 @@ java {
 repositories {
     mavenCentral()
     maven { url = "https://maven.blamejared.com/" }
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
 }
 
 neoForge {
@@ -53,7 +60,9 @@ dependencies {
     compileOnly "io.github.llamalad7:mixinextras-neoforge:0.5.3"
 
     compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
+    compileOnly "maven.modrinth:jade:${jade_version}"
     runtimeOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
+    runtimeOnly "maven.modrinth:jade:${jade_version}"
 }
 
 processResources {
