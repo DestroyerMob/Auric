@@ -9,6 +9,7 @@ The mod is currently early in development. Expect features to grow, shift, and c
 - Mod id: `auric`
 - Current version: `0.1.0`
 - Target: Minecraft 1.21.1, NeoForge 21.1.234, Java 21
+- Optional integration: Jade 15+
 - Server config: `config/auric-server.toml`
 
 ## Current Features
@@ -20,6 +21,8 @@ The mod is currently early in development. Expect features to grow, shift, and c
 - Camouflage tools for copying block appearances and disguising blocks.
 - A Block Palette for compact builder block storage and random placement.
 - Sword in Stone blocks and rare Forgotten Blade Shrine worldgen.
+- Data-driven imbuing rules under `data/<namespace>/auric/imbue_effects/` so packs can add or replace eligible potion-effect behavior.
+- Jade potion-cauldron diagnostics showing the stored potion, fill level, heat state, and visible effects.
 - Configurable imbuing strength, XP cost, disallowed effects, potion candle mixing, and shrine generation.
 
 ## Design Direction
@@ -43,6 +46,10 @@ The rough pillars are:
 ## Configuration
 
 The server config controls imbuing strength and XP cost, Dragon's Breath imbuing level caps, disallowed effects, mixed-effect candle stacking, and Forgotten Blade Shrine generation.
+
+## Minecraft Beyond Integration
+
+Minecraft Beyond uses Auric as its broad magic-and-utility layer and supplies Jade for readable potion-cauldron state. The pack also provides external ruby and sapphire materials used by other local projects; Auric's own systems remain deliberately data-driven and do not hard-depend on those projects.
 
 ## Building
 
